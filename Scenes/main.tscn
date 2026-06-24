@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://rqj6i40heav4"]
+
+[ext_resource type="Script" uid="uid://6hqe177gv6uv" path="res://Scripts/main.gd" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://dqh2onhrsm20v" path="res://Scenes/board.tscn" id="2_bo1nx"]
+
+[node name="Main" type="Node2D" unique_id=1812493689]
+script = ExtResource("1_jjgbg")
+
+[node name="Board" parent="." unique_id=1220153438 instance=ExtResource("2_bo1nx")]
+position = Vector2(35, 100)
+
+[node name="ActivePiece" type="Node2D" parent="." unique_id=343441570]
+
+[node name="PieceSpawner" type="Node2D" parent="." unique_id=1070270683]

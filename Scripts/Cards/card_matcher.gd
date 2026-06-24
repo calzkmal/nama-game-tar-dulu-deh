@@ -1,0 +1,81 @@
+extends RefCounted
+
+class_name CardMatcher
+
+# Finds all adjacent cards with matching ranks.
+#
+# Only checks:
+# - Right neighbor
+# - Bottom neighbor
+#
+# Avoids detecting the same pair twice.
+#
+# Example:
+#
+# A A
+#
+# Detected once:
+# (0,0) <-> (1,0)
+#
+# Not twice.
+
+static func find_all_pairs(
+	board_state: BoardState
+) -> Array:
+	
+	# Shortcut references
+	var board = board_state.cells
+	var width = board_state.width
+	var height = board_state.height
+	
+	var pairs = []
+
+	for y in range(height):
+
+		for x in range(width):
+
+			var card = board[y][x]
+			
+			# Skip empty cells
+			if card == null:
+				continue
+
+			var pos = Vector2i(x, y)
+			
+			# Only check right and down
+			# to avoid duplicate pair detection
+			var directions = [
+				Vector2i.RIGHT,
+				Vector2i.DOWN
+			]
+
+			for dir in directions:
+
+				var check_pos = pos + dir
+				
+				# Ignore positions outside board bounds
+				if check_pos.x >= width:
+					continue
+
+				if check_pos.y >= height:
+					continue
+
+				var other = board[
+					check_pos.y
+				][
+					check_pos.x
+				]
+				
+				# Ignore empty neighbors
+				if other == null:
+					continue
+				
+				# Match found
+				if card["rank"] == other["rank"]:
+
+					pairs.append([
+						pos,
+						check_pos
+					])
+
+	return pairs
