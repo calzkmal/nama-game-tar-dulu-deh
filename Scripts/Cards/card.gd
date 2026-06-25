@@ -9,10 +9,10 @@ static func create_random() -> Dictionary:
 
 	var suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
 
+	# TODO: Add 'J', 'Q', 'K', 'A' once Eileen's finished
 	var ranks = [
-		"A", "2", "3", "4", "5",
-		"6", "7", "8", "9", "10",
-		"J", "Q", "K"
+		"2", "3", "4", "5",
+		"6", "7", "8", "9", "10"
 		]
 
 	var suit = suits.pick_random()

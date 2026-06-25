@@ -2,21 +2,18 @@ extends RefCounted
 
 class_name BoardResolver
 
-static func destroy_pairs(
+static func destroy_combos(
 	board_state: BoardState,
-	pairs: Array
+	combos: Array
 ):
 	var board = board_state.cells
 	
 	var destroyed = {}
 
-	for pair in pairs:
+	for combo in combos:
 
-		var pos1: Vector2i = pair[0]
-		var pos2: Vector2i = pair[1]
-
-		destroyed[str(pos1)] = pos1
-		destroyed[str(pos2)] = pos2
+		for cell in combo.cells:
+			destroyed[str(cell)] = cell
 
 	for value in destroyed.values():
 

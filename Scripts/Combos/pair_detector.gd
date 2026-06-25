@@ -1,6 +1,6 @@
 extends RefCounted
 
-class_name CardMatcher
+class_name PairDetector
 
 # Finds all adjacent cards with matching ranks.
 #
@@ -19,7 +19,7 @@ class_name CardMatcher
 #
 # Not twice.
 
-static func find_all_pairs(
+static func detect(
 	board_state: BoardState
 ) -> Array:
 	
@@ -28,7 +28,7 @@ static func find_all_pairs(
 	var width = board_state.width
 	var height = board_state.height
 	
-	var pairs = []
+	var combos: Array[Combo] = []
 
 	for y in range(height):
 
@@ -73,9 +73,21 @@ static func find_all_pairs(
 				# Match found
 				if card["rank"] == other["rank"]:
 
-					pairs.append([
+					var combo := Combo.new()
+
+					combo.type = Combo.Type.PAIR
+					combo.priority = 1
+					combo.score = 100
+					combo.cells = [
 						pos,
 						check_pos
-					])
+					]
 
-	return pairs
+					if dir == Vector2i.RIGHT:
+						combo.direction = Combo.Direction.HORIZONTAL
+					else:
+						combo.direction = Combo.Direction.VERTICAL
+
+					combos.append(combo)
+
+	return combos

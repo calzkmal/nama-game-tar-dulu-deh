@@ -28,12 +28,16 @@ const BoardResolver = preload(
 	"res://Scripts/Boards/board_resolver.gd"
 )
 
+const ComboDetector = preload(
+	"res://Scripts/Combos/combo_detector.gd"
+)
+
 var board_state: BoardState
 
 var active_pos = Vector2i(4, 0)
 
 var fall_timer = 0.0
-var fall_interval = 0.5
+var fall_interval = 1.0
 
 var active_card_node
 var active_card_data = {}
@@ -163,11 +167,11 @@ func resolve_board():
 
 	while true:
 
-		var pairs = CardMatcher.find_all_pairs(
+		var combos = ComboDetector.detect_all(
 			board_state
 		)
 
-		if pairs.is_empty():
+		if combos.is_empty():
 			break
 
 		chain += 1
@@ -176,7 +180,7 @@ func resolve_board():
 
 		BoardResolver.destroy_pairs(
 			board_state,
-			pairs
+			combos
 		)
 
 		GravitySolver.apply_gravity(
