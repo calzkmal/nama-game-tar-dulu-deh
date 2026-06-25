@@ -28,6 +28,10 @@ const ComboDetector = preload(
 	"res://Scripts/Combos/combo_detector.gd"
 )
 
+const ScoreManager = preload(
+	"res://Scripts/Scorings/score_manager.gd"
+)
+
 var board_state: BoardState
 
 var active_pos = Vector2i(4, 0)
@@ -37,6 +41,8 @@ var fall_interval = 1.0
 
 var active_card_node
 var active_card_data = {}
+
+var score: int = 0
 
 @onready var CardScene = preload("res://Scenes/card.tscn")
 
@@ -163,20 +169,30 @@ func resolve_board():
 
 	while true:
 
-		var combos = ComboDetector.detect_all(
-			board_state
-		)
+		var combos = ComboDetector.detect_all(board_state)
 
 		if combos.is_empty():
 			break
 
+		var resolved = ComboResolver.resolve(combos)
+
+		if resolved.is_empty():
+			break
+
 		chain += 1
 
-		print("CHAIN x", chain)
+		# Add score
+		var result = ScoreManager.calculate(
+			resolved,
+			chain
+		)
+		score += result.total
+
+		print("Score:", score)
 
 		BoardResolver.destroy_combos(
 			board_state,
-			combos
+			resolved
 		)
 
 		GravitySolver.apply_gravity(

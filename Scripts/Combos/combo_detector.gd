@@ -3,13 +3,13 @@ extends RefCounted
 class_name ComboDetector
 
 const PairDetector = preload(
-	"res://Scripts/Combos/pair_detector.gd"
+	"res://Scripts/Combos/Combinations/pair_detector.gd"
 )
 
-# Future detectors
-# const TripleDetector = preload(...)
-# const StraightDetector = preload(...)
-# const FlushDetector = preload(...)
+# Detectors registry
+const DETECTORS = [
+	PairDetector,
+]
 
 
 # Detects every possible combo on the board.
@@ -26,19 +26,11 @@ static func detect_all(
 
 	var combos: Array[Combo] = []
 
-	# Pair
-	combos.append_array(
-		PairDetector.detect(board_state)
-	)
-
-	# Future combinations
-	#
-	# combos.append_array(
-	#     TripleDetector.detect(board_state)
-	# )
-	#
-	# combos.append_array(
-	#     StraightDetector.detect(board_state)
-	# )
+	# Combos
+	for detector in DETECTORS:
+		
+		combos.append_array(
+			detector.detect(board_state)
+		)
 
 	return combos

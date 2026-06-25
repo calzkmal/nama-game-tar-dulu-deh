@@ -73,15 +73,14 @@ static func detect(
 				# Match found
 				if card["rank"] == other["rank"]:
 
-					var combo := Combo.new()
-
-					combo.type = Combo.Type.PAIR
-					combo.priority = 1
-					combo.score = 100
-					combo.cells = [
-						pos,
-						check_pos
-					]
+					var combo := Combo.create(
+						Combo.Type.PAIR,
+						Combo.Direction.HORIZONTAL,
+						[
+							pos,
+							check_pos
+						]
+					)
 
 					if dir == Vector2i.RIGHT:
 						combo.direction = Combo.Direction.HORIZONTAL
