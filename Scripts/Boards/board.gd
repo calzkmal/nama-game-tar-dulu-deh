@@ -16,10 +16,6 @@ const CardFactory = preload(
 	"res://Scripts/Cards/card_factory.gd"
 )
 
-const CardMatcher = preload(
-	"res://Scripts/Cards/card_matcher.gd"
-)
-
 const GravitySolver = preload(
 	"res://Scripts/Gravities/gravity_solver.gd"
 )
@@ -178,7 +174,7 @@ func resolve_board():
 
 		print("CHAIN x", chain)
 
-		BoardResolver.destroy_pairs(
+		BoardResolver.destroy_combos(
 			board_state,
 			combos
 		)
